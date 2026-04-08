@@ -3,252 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Melodi Cinta Kita</title>
+    <title>Pesan Suara Spesial</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(135deg, #ffe9f3 0%, #fff5f8 100%);
+            background-color: #fff5f7;
             overflow-x: hidden;
-            min-height: 100vh;
         }
-
-        .font-pacifico {
-            font-family: 'Pacifico', cursive;
+        .font-romance {
+            font-family: 'Dancing Script', cursive;
         }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 182, 193, 0.5);
-            border-radius: 30px;
-        }
-
-        /* Animasi Hati Melayang */
         .heart {
-            position: fixed;
-            font-size: 20px;
-            color: #ff85a1;
-            user-select: none;
-            pointer-events: none;
-            z-index: 0;
+            position: absolute;
+            color: #ff8da1;
             animation: float 6s linear infinite;
-            opacity: 0;
+            z-index: 0;
+            pointer-events: none;
         }
-
         @keyframes float {
             0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
             100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
         }
-
-        /* Animasi Piringan Hitam */
-        .disc-animation {
-            animation: rotate 5s linear infinite;
+        .envelope-shadow {
+            box-shadow: 0 10px 30px rgba(255, 141, 161, 0.3);
         }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        .btn-gradient {
+            background: linear-gradient(135deg, #ff8da1 0%, #ff5e78 100%);
         }
-
-        .paused {
-            animation-play-state: paused;
+        .glass {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
+        /* Pulse effect for audio button */
+        .pulse-animation {
+            animation: pulse 2s infinite;
         }
-        ::-webkit-scrollbar-track {
-            background: #ffe9f3;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #ffb6c1;
-            border-radius: 10px;
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 141, 161, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(255, 141, 161, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 141, 161, 0); }
         }
     </style>
 </head>
-<body class="flex items-center justify-center p-4">
+<body class="min-h-screen flex items-center justify-center p-4">
 
-    <!-- Container Utama -->
-    <div class="relative z-10 w-full max-w-md">
-        
-        <!-- Kartu Utama -->
-        <div class="glass-card p-8 shadow-2xl text-center space-y-6">
-            
-            <!-- Header -->
-            <div class="space-y-2">
-                <h1 class="text-4xl font-pacifico text-pink-500">Melodi Cinta</h1>
-                <p class="text-pink-400 text-sm font-semibold">"Setiap nada mengingatkanku padamu"</p>
+    <!-- Background Hearts -->
+    <div id="heart-container"></div>
+
+    <div id="app" class="relative z-10 w-full max-w-md">
+        <!-- Tampilan Awal -->
+        <div id="welcome-screen" class="glass rounded-3xl p-10 text-center envelope-shadow transition-all duration-700">
+            <div class="mb-6 inline-block">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-pink-500 animate-bounce" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
             </div>
-
-            <!-- Vinyl Player Visual -->
-            <div class="relative mx-auto w-48 h-48 flex items-center justify-center">
-                <div id="musicDisc" class="disc-animation paused absolute w-full h-full rounded-full bg-neutral-800 border-8 border-pink-200 shadow-xl flex items-center justify-center overflow-hidden">
-                    <div class="w-16 h-16 bg-pink-100 rounded-full border-4 border-pink-400 z-10 flex items-center justify-center">
-                        <i data-lucide="heart" class="text-pink-500 fill-pink-500 w-8 h-8"></i>
-                    </div>
-                    <!-- Mock CD Texture -->
-                    <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle,rgba(255,255,255,0.8)_0%,transparent_70%)]"></div>
-                </div>
-            </div>
-
-            <!-- Judul Lagu & Info -->
-            <div class="space-y-1">
-                <h2 id="songTitle" class="text-xl font-bold text-gray-700 truncate">Lagu Favorit Kita</h2>
-                <p id="artistName" class="text-pink-400 text-sm uppercase tracking-widest">Pilih musikmu sendiri</p>
-            </div>
-
-            <!-- Kontrol Audio -->
-            <div class="flex flex-col items-center gap-4">
-                <audio id="mainAudio" class="hidden"></audio>
-                
-                <div class="flex items-center gap-6">
-                    <button id="playPauseBtn" class="w-16 h-16 bg-pink-500 hover:bg-pink-600 text-white rounded-full flex items-center justify-center shadow-lg transition-transform active:scale-90">
-                        <i id="playIcon" data-lucide="play" class="w-8 h-8 fill-white"></i>
-                    </button>
-                </div>
-
-                <!-- Progress Bar -->
-                <div class="w-full space-y-1">
-                    <input type="range" id="progressBar" value="0" class="w-full accent-pink-500 cursor-pointer h-2 bg-pink-200 rounded-lg appearance-none">
-                    <div class="flex justify-between text-xs text-pink-400 font-bold">
-                        <span id="currentTime">0:00</span>
-                        <span id="duration">0:00</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Fitur Custom Audio -->
-            <div class="pt-6 border-t border-pink-100">
-                <p class="text-xs text-pink-400 mb-3 font-semibold">Ganti dengan lagu pilihanmu:</p>
-                <label for="audioUpload" class="cursor-pointer flex items-center justify-center gap-2 bg-pink-50 hover:bg-pink-100 text-pink-500 border border-pink-200 py-2 px-4 rounded-full text-sm transition-colors">
-                    <i data-lucide="music" class="w-4 h-4"></i>
-                    Pilih File MP3
-                </label>
-                <input type="file" id="audioUpload" accept="audio/*" class="hidden">
-            </div>
-
-            <!-- Pesan Cinta -->
-            <div class="mt-4 p-4 bg-white/50 rounded-2xl border border-pink-100">
-                <p class="text-gray-600 text-sm italic">
-                    "Terima kasih telah menjadi bagian terindah dalam simfoni hidupku."
-                </p>
-            </div>
-
+            <h1 class="font-romance text-4xl text-pink-600 mb-4">Hai Cantik...</h1>
+            <p class="text-gray-600 mb-8 leading-relaxed">Seseorang menitipkan pesan suara rahasia untukmu. Ingin mendengarnya?</p>
+            <button onclick="openLetter()" class="btn-gradient text-white font-semibold py-4 px-12 rounded-full shadow-lg transform transition active:scale-95">
+                Buka Pesan ❤️
+            </button>
         </div>
 
-        <!-- Footer -->
-        <p class="text-center mt-6 text-pink-400 text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-1">
-            Dibuat dengan <i data-lucide="heart" class="w-3 h-3 fill-pink-400"></i> untukmu
-        </p>
+        <!-- Tampilan Audio (Muncul setelah di klik) -->
+        <div id="audio-content" class="hidden glass rounded-3xl p-10 envelope-shadow transition-all duration-700 text-center">
+            <h2 class="font-romance text-3xl text-pink-600 mb-8 italic">"Dengarkan dengan hati..."</h2>
+            
+            <div class="relative flex flex-col items-center">
+                <!-- Foto Profil / Icon -->
+                <div class="w-32 h-32 rounded-full border-4 border-pink-200 mb-6 flex items-center justify-center bg-pink-50 overflow-hidden shadow-inner">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-pink-300" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                        <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                    </svg>
+                </div>
+
+                <!-- Tombol Audio -->
+                <button id="audio-btn" onclick="toggleAudio()" class="pulse-animation inline-flex items-center justify-center w-20 h-20 rounded-full bg-pink-500 text-white shadow-xl hover:bg-pink-600 transition-all relative z-10">
+                    <span id="play-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                        </svg>
+                    </span>
+                    <span id="pause-icon" class="hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                        </svg>
+                    </span>
+                </button>
+
+                <!-- Waveform simple visualizer -->
+                <div class="flex gap-1 mt-8 h-8 items-center">
+                    <div class="w-1 bg-pink-300 rounded-full animate-bounce" style="height: 40%; animation-delay: 0.1s"></div>
+                    <div class="w-1 bg-pink-400 rounded-full animate-bounce" style="height: 70%; animation-delay: 0.2s"></div>
+                    <div class="w-1 bg-pink-500 rounded-full animate-bounce" style="height: 100%; animation-delay: 0.3s"></div>
+                    <div class="w-1 bg-pink-400 rounded-full animate-bounce" style="height: 70%; animation-delay: 0.4s"></div>
+                    <div class="w-1 bg-pink-300 rounded-full animate-bounce" style="height: 40%; animation-delay: 0.5s"></div>
+                </div>
+
+                <p id="status-text" class="mt-6 text-pink-500 font-medium tracking-wide">Putar Pesan Suara</p>
+                <input type="range" id="seek-slider" value="0" max="100" class="w-full mt-6 accent-pink-500 opacity-50">
+            </div>
+            
+            <button onclick="resetApp()" class="mt-10 text-gray-400 text-xs w-full text-center hover:text-pink-400 uppercase tracking-widest">Tutup</button>
+        </div>
     </div>
 
+    <!-- AUDIO FILE LOKAL -->
+    <!-- Ganti 'audio_kamu.mp3' dengan nama file audio kamu yang ada di folder yang sama -->
+    <audio id="my-audio" src="SepenuhHati.mp3"></audio>
+
     <script>
-        // Inisialisasi Ikon Lucide
-        lucide.createIcons();
-
-        const audio = document.getElementById('mainAudio');
-        const playPauseBtn = document.getElementById('playPauseBtn');
-        const playIcon = document.getElementById('playIcon');
-        const audioUpload = document.getElementById('audioUpload');
-        const songTitle = document.getElementById('songTitle');
-        const artistName = document.getElementById('artistName');
-        const musicDisc = document.getElementById('musicDisc');
-        const progressBar = document.getElementById('progressBar');
-        const currentTimeEl = document.getElementById('currentTime');
-        const durationEl = document.getElementById('duration');
-
-        let isPlaying = false;
-
-        // Fungsi Play/Pause
-        function togglePlay() {
-            if (!audio.src) {
-                alert("Silakan pilih lagu terlebih dahulu ya!");
-                return;
-            }
-
-            if (isPlaying) {
-                audio.pause();
-                playIcon.setAttribute('data-lucide', 'play');
-                musicDisc.classList.add('paused');
-            } else {
-                audio.play();
-                playIcon.setAttribute('data-lucide', 'pause');
-                musicDisc.classList.remove('paused');
-            }
-            isPlaying = !isPlaying;
-            lucide.createIcons();
-        }
-
-        playPauseBtn.addEventListener('click', togglePlay);
-
-        // Upload Audio Custom
-        audioUpload.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const url = URL.createObjectURL(file);
-                audio.src = url;
-                
-                // Update judul lagu dari nama file
-                const nameWithoutExt = file.name.split('.').slice(0, -1).join('.');
-                songTitle.innerText = nameWithoutExt;
-                artistName.innerText = "Lagu Pilihanmu";
-                
-                // Reset state
-                isPlaying = false;
-                togglePlay();
-            }
-        });
-
-        // Update Progress Bar
-        audio.addEventListener('timeupdate', () => {
-            const progress = (audio.currentTime / audio.duration) * 100;
-            progressBar.value = progress || 0;
-            
-            currentTimeEl.innerText = formatTime(audio.currentTime);
-        });
-
-        audio.addEventListener('loadedmetadata', () => {
-            durationEl.innerText = formatTime(audio.duration);
-        });
-
-        progressBar.addEventListener('input', () => {
-            const seekTime = (progressBar.value / 100) * audio.duration;
-            audio.currentTime = seekTime;
-        });
-
-        function formatTime(seconds) {
-            const min = Math.floor(seconds / 60);
-            const sec = Math.floor(seconds % 60);
-            return `${min}:${sec < 10 ? '0' : ''}${sec}`;
-        }
-
-        // Hati Melayang
+        // Function to create floating hearts
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart');
             heart.innerHTML = '❤️';
             heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 3 + 3 + 's';
-            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
-            document.body.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, 6000);
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            heart.style.opacity = Math.random();
+            document.getElementById('heart-container').appendChild(heart);
+            setTimeout(() => heart.remove(), 6000);
         }
 
         setInterval(createHeart, 400);
 
-        // Auto restart jika lagu habis
+        function openLetter() {
+            document.getElementById('welcome-screen').classList.add('scale-0', 'opacity-0');
+            setTimeout(() => {
+                document.getElementById('welcome-screen').classList.add('hidden');
+                document.getElementById('audio-content').classList.remove('hidden');
+                document.getElementById('audio-content').classList.add('scale-100', 'opacity-100');
+            }, 500);
+        }
+
+        function resetApp() {
+            const audio = document.getElementById('my-audio');
+            audio.pause();
+            audio.currentTime = 0;
+            updateUI(false);
+            document.getElementById('audio-content').classList.add('hidden');
+            document.getElementById('welcome-screen').classList.remove('hidden', 'scale-0', 'opacity-0');
+        }
+
+        // --- Audio Logic ---
+        const audio = document.getElementById('my-audio');
+        const playIcon = document.getElementById('play-icon');
+        const pauseIcon = document.getElementById('pause-icon');
+        const statusText = document.getElementById('status-text');
+        const seekSlider = document.getElementById('seek-slider');
+        const audioBtn = document.getElementById('audio-btn');
+
+        function toggleAudio() {
+            if (audio.paused) {
+                audio.play().catch(e => {
+                    alert("Pastikan file 'audio_kamu.mp3' sudah ada di folder yang sama ya!");
+                });
+                updateUI(true);
+            } else {
+                audio.pause();
+                updateUI(false);
+            }
+        }
+
+        function updateUI(playing) {
+            if (playing) {
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+                statusText.innerText = "Sedang didengarkan...";
+                audioBtn.classList.remove('pulse-animation');
+            } else {
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+                statusText.innerText = "Pesan Berhenti";
+                audioBtn.classList.add('pulse-animation');
+            }
+        }
+
+        audio.addEventListener('timeupdate', () => {
+            const value = (audio.currentTime / audio.duration) * 100;
+            seekSlider.value = value || 0;
+        });
+
         audio.addEventListener('ended', () => {
-            isPlaying = false;
-            playIcon.setAttribute('data-lucide', 'play');
-            musicDisc.classList.add('paused');
-            lucide.createIcons();
+            updateUI(false);
+            statusText.innerText = "Selesai didengarkan ❤️";
+            seekSlider.value = 0;
+        });
+
+        seekSlider.addEventListener('input', () => {
+            const time = (seekSlider.value / 100) * audio.duration;
+            audio.currentTime = time;
         });
     </script>
 </body>
