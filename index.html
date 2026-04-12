@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pesan Suara Spesial</title>
+    <title>for youu</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
     <style>
@@ -37,7 +37,6 @@
             backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
-        /* Pulse effect for audio button */
         .pulse-animation {
             animation: pulse 2s infinite;
         }
@@ -50,27 +49,24 @@
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
 
-    <!-- Background Hearts -->
     <div id="heart-container"></div>
 
     <div id="app" class="relative z-10 w-full max-w-md">
-        <!-- Tampilan Awal -->
         <div id="welcome-screen" class="glass rounded-3xl p-10 text-center envelope-shadow transition-all duration-700">
             <div class="mb-6 inline-block">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-pink-500 animate-bounce" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                 </svg>
             </div>
-            <h1 class="font-romance text-4xl text-pink-600 mb-4">Hai Cantik...</h1>
-            <p class="text-gray-600 mb-8 leading-relaxed">Seseorang menitipkan pesan suara rahasia untukmu. Ingin mendengarnya?</p>
+            <h1 class="font-romance text-4xl text-pink-600 mb-4">Happy Birthday...</h1>
+            <p class="text-gray-600 mb-8 leading-relaxed">Btw, aku ada sedikit pesan suara untukmu ni hehe dengerin yaww</p>
             <button onclick="openLetter()" class="btn-gradient text-white font-semibold py-4 px-12 rounded-full shadow-lg transform transition active:scale-95">
                 Buka Pesan ❤️
             </button>
         </div>
 
-        <!-- Tampilan Audio (Muncul setelah di klik) -->
         <div id="audio-content" class="hidden glass rounded-3xl p-10 envelope-shadow transition-all duration-700 text-center">
-            <h2 class="font-romance text-3xl text-pink-600 mb-8 italic">"Dengarkan dengan hati..."</h2>
+            <h2 class="font-romance text-3xl text-pink-600 mb-8 italic"></h2>
             
             <div class="relative flex flex-col items-center">
                 <!-- Foto Profil / Icon -->
@@ -81,7 +77,6 @@
                     </svg>
                 </div>
 
-                <!-- Tombol Audio -->
                 <button id="audio-btn" onclick="toggleAudio()" class="pulse-animation inline-flex items-center justify-center w-20 h-20 rounded-full bg-pink-500 text-white shadow-xl hover:bg-pink-600 transition-all relative z-10">
                     <span id="play-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="currentColor" viewBox="0 0 24 24">
@@ -95,7 +90,6 @@
                     </span>
                 </button>
 
-                <!-- Waveform simple visualizer -->
                 <div class="flex gap-1 mt-8 h-8 items-center">
                     <div class="w-1 bg-pink-300 rounded-full animate-bounce" style="height: 40%; animation-delay: 0.1s"></div>
                     <div class="w-1 bg-pink-400 rounded-full animate-bounce" style="height: 70%; animation-delay: 0.2s"></div>
@@ -112,9 +106,7 @@
         </div>
     </div>
 
-    <!-- AUDIO FILE LOKAL -->
-    <!-- Ganti 'audio_kamu.mp3' dengan nama file audio kamu yang ada di folder yang sama -->
-    <audio id="my-audio" src="magic.mp3"></audio>
+    <audio id="my-audio" src="SepenuhHati.mp3"></audio>
 
     <script>
         // Function to create floating hearts
